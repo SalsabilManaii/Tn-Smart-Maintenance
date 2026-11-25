@@ -1,6 +1,6 @@
 # TSM – Tunisia Smart Maintenance
 
-projet d'integré - DSI3.2
+projet integré - DSI3.2
 
 
 ## Project Structure
