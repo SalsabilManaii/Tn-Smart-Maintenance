@@ -1,0 +1,48 @@
+{
+  "info": {
+    "_postman_id": "298d280c-f9aa-404a-ae56-d9dc0be0f2b3",
+    "name": "Tunisia Smart Maintenance- projet",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "60280561",
+    "_collection_link": "https://go.postman.co/collection/60280561-298d280c-f9aa-404a-ae56-d9dc0be0f2b3?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get client ID",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "get demandes",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "get equipment",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/equipements/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "equipements",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
