@@ -11,4 +11,6 @@ public interface PersonneRepository extends JpaRepository<Personne, Integer> {
     Optional<Personne> findByEmail(String email);
 
     List<Personne> findByRoleIgnoreCase(String role);
+
+    long countByRole(String role);
 }

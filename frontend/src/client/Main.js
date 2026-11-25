@@ -1,5 +1,7 @@
+
 import React, { useState, useEffect } from "react";
 import Demande from "../components/Demande";
+import Equipment from "../components/Equipment";
 import "./Main.css";
 
 const API = "http://localhost:8080/api";
@@ -7,7 +9,9 @@ const API = "http://localhost:8080/api";
 function Main() {
   const [activePage, setActivePage] = useState("Dashboard");
   const [openForm, setOpenForm] = useState(false);
+
   const [requests, setRequests] = useState([]);
+  const [equipment, setEquipment] = useState([]);
 
   const token = localStorage.getItem("token");
   const clientId = localStorage.getItem("userId");
@@ -19,8 +23,10 @@ function Main() {
     }
 
     fetchData();
+    fetchEquipment();
   }, []);
 
+  // FETCH MAINTENANCE REQUESTS
   const fetchData = async () => {
     try {
       const headers = {
@@ -41,15 +47,43 @@ function Main() {
 
       const responseText = await response.text();
 
-console.log("HTTP Status:", response.status);
-console.log("Backend response:", responseText);
+      console.log("HTTP Status:", response.status);
+      console.log("Backend response:", responseText);
 
-const data = responseText ? JSON.parse(responseText) : [];
+      const data = responseText ? JSON.parse(responseText) : [];
 
-setRequests(data);
+      setRequests(data);
 
     } catch (error) {
       console.error("Error loading requests:", error);
+    }
+  };
+
+  // FETCH CLIENT EQUIPMENT
+  const fetchEquipment = async () => {
+    try {
+      const response = await fetch(
+        `${API}/equipements/client/${clientId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(
+          `Failed to load equipment: ${response.status} ${errorText}`
+        );
+      }
+
+      const data = await response.json();
+
+      setEquipment(data);
+
+    } catch (error) {
+      console.error("Error loading equipment:", error);
     }
   };
 
@@ -72,6 +106,7 @@ setRequests(data);
 
   const renderContent = () => {
     switch (activePage) {
+
       case "Dashboard":
         return (
           <>
@@ -128,6 +163,15 @@ setRequests(data);
           />
         );
 
+      // EQUIPMENT PAGE
+      case "Mes équipements":
+        return (
+          <Equipment
+            equipment={equipment}
+            setEquipment={setEquipment}
+          />
+        );
+
       case "Historique":
         return (
           <>
@@ -167,12 +211,14 @@ setRequests(data);
   const menuItems = [
     "Dashboard",
     "Mes demandes",
+    "Mes équipements",
     "Historique",
     "Messages",
   ];
 
   return (
     <div className="dashboard-container">
+
       <aside className="sidebar">
         <h2 className="logo">
           TSM<span>.</span>
@@ -184,7 +230,11 @@ setRequests(data);
           <button
             key={item}
             type="button"
-            className={activePage === item ? "menu-item active" : "menu-item"}
+            className={
+              activePage === item
+                ? "menu-item active"
+                : "menu-item"
+            }
             onClick={() => handleMenuClick(item)}
           >
             {item}
@@ -206,6 +256,7 @@ setRequests(data);
       </aside>
 
       <main className="main-content">
+
         <header className="topbar">
           <span>{activePage}</span>
 
@@ -218,6 +269,7 @@ setRequests(data);
         <div className="page-content">
           {renderContent()}
         </div>
+
       </main>
     </div>
   );

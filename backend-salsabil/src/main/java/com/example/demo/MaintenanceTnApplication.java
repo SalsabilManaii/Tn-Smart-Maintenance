@@ -5,18 +5,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.persistence.autoconfigure.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-
 @SpringBootApplication(scanBasePackages = {
-	    "com.example.demo",
-	    "entity",
-	    "controller",
-	    "repository"
-	})
-	@EntityScan(basePackages = "entity")
-	@EnableJpaRepositories(basePackages = "repository")
-	public class MaintenanceTnApplication {
+    "com.example.demo",
+    "entity",
+    "controller",
+    "repository"
+})
+@EntityScan(basePackages = {
+    "entity",
+    "com.example.demo.entity"
+})
+@EnableJpaRepositories(basePackages = {
+    "repository",
+    "com.example.demo.repository"
+})
+public class MaintenanceTnApplication {
 
-	    public static void main(String[] args) {
-	        SpringApplication.run(MaintenanceTnApplication.class, args);
-	    }
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(MaintenanceTnApplication.class, args);
+    }
+}

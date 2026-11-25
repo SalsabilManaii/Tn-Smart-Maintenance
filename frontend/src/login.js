@@ -51,6 +51,9 @@ const handleLogin = async (e) => {
     else if (role === 'RESPONSABLE') {
         navigate('/Responsable');
     }
+    else if (role === 'ADMIN') {
+        navigate('/Admin');
+    }
 } else {
     setError('Email ou mot de passe incorrect.');
 }
